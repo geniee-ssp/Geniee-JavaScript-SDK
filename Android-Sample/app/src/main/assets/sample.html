@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+    <div>
+        Ad Sample
+    </div>
+
+    <script>
+        // 広告タグが利用するグローバル変数
+        var geparams = window.geparams || {};
+
+        // RTB用のパラメータをネイティブの処理から取得してグローバル変数に設定します。
+        geparams.idfa = appData.getAdvertisingId();
+        geparams.lat = appData.getLat();
+        geparams.bundle = appData.getPackageName();
+    </script>
+
+    <!-- 広告タグ 管理ツールで発行したものを設置してください -->
+    <script type="text/javascript" src="xxx.js"></script>
+
+    <!-- 設定したRTBパラメータをデバッグ出力するタグ -->
+    <script type='text/javascript' src='http://js.gsspcln.jp/l/jssdk_debug.js'></script>
+
+</body>
+</html>
