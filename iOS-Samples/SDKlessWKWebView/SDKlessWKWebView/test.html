@@ -1,0 +1,20 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <head>
+        <script>
+            
+            // 広告クリック時に外部ブラウザで開くかどうかを判別するためのキーワード
+            // 広告クリック時にUIWebviewのshouldStartLoadWithRequestメソッドで判定するために使用しています。
+            var clickkeywords = window.clickkeywords || {};
+            clickkeywords = ["opensafari", "browser_open"]; // 例なので適宜書き換えてください
+        </script>
+        <!-- デバッグ出力の設定。IDFAなどのパラメータが正しく設定されていたらコンソールログに出力されます。-->
+        <script type="text/javascript" src="http://js.gsspcln.jp/l/jssdk_debug.js"></script>
+    </head>
+    <body>
+        
+        <!-- 広告タグ -->
+        <script type="text/javascript" src="(広告タグ).js"></script>
+    
+    </body>
+</html>
