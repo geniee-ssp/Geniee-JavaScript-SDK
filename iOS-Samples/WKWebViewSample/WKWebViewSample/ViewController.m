@@ -68,10 +68,12 @@
     // URLに外部ブラウザで起動するためのキーワードが含まれていたら外部ブラウザで開く処理
     // (広告に管理画面で設定したキーワードが設定され、広告をタップすると外部ブラウザで開く処理を実現する)
     // 下の例の、@"外部ブラウザ起動用キーワード"を登録済みのものに書き換える。
-    if ([urlString rangeOfString:@"外部ブラウザ起動用キーワード"].location != NSNotFound) {
-        [[UIApplication sharedApplication] openURL:url];
-        decisionHandler(WKNavigationActionPolicyCancel);
-        return;
+    if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
+        if ([urlString rangeOfString:@"外部ブラウザ起動用キーワード"].location != NSNotFound) {
+            [[UIApplication sharedApplication] openURL:url];
+            decisionHandler(WKNavigationActionPolicyCancel);
+            return;
+        }
     }
     decisionHandler(WKNavigationActionPolicyAllow);
 }
