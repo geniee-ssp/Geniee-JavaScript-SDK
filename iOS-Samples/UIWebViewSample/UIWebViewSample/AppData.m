@@ -1,6 +1,5 @@
 #import "AppData.h"
 @import AdSupport;
-@import CoreTelephony;
 
 // アプリの各種データを取得するクラスです。
 @implementation AppData
