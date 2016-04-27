@@ -16,4 +16,5 @@ DerivedData
 *.xcuserstate
 WKWebViewSample.xcodeproj/xcuserdata/*
 WKWebViewSample.xcodeproj/project.xcworkspace/xcuserdata/*
+*.xcscmblueprint
 .DS_Store
