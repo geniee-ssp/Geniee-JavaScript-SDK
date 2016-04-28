@@ -17,7 +17,7 @@
         [NSString stringWithFormat:@"var geparams = window.geparams || {}; "
                                    @"geparams.lat = %@; geparams.idfa = '%@'; geparams.bundle = '%@';",
                                    ![AppData canTracking] ? @(true) : @(false), [AppData idfa], [AppData bundleId]];
-    if ([AppData carrierCode]) {
+    if ([AppData carrierCode].length) {
         setParams = [setParams stringByAppendingFormat:@"geparams.carrier = '%@';", [AppData carrierCode]];
     }
     
