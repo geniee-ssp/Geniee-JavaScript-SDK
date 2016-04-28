@@ -5,5 +5,6 @@
 + (NSString *)bundleId;
 + (BOOL)canTracking;
 + (NSString *)idfa;
++ (NSString *)carrierCode;
 
 @end

@@ -6,10 +6,11 @@
             var geparams = window.geparams || {};
             
             // グローバル変数geparamsにIDFA等をセットする関数。ネイティブから呼び出されます。
-            function gnjs_setParameters(lat, idfa, bundle) {
+            function gnjs_setParameters(lat, idfa, bundle, carrier) {
                 geparams.lat = lat;
                 geparams.idfa = idfa;
                 geparams.bundle = bundle;
+                if (carrier) { geparams.carrier = carrier; }
             }
         
             // 以下の処理でネイティブの処理を呼び出します。

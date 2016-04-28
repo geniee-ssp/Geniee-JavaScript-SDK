@@ -34,10 +34,10 @@
     NSURL *url = [request URL];
     NSString *urlString = [[request URL] absoluteString];
     
-    // HTML側から呼ばれるネイティブ処理。ネイティブ側でIDFA、LAT、バンドルIDを取得し、HTML側に戻す。
+    // HTML側から呼ばれるネイティブ処理。ネイティブ側でIDFA、LAT、バンドルID、キャリアを取得し、HTML側に戻す。
     if ([[url scheme] isEqualToString:@"gnjsscheme"]) {
         if ([[url resourceSpecifier] hasPrefix:@"call_native"]) {
-            NSString *js = [NSString stringWithFormat:@"gnjs_setParameters(%@, '%@', '%@');", ![AppData canTracking] ? @(true) : @(false), [AppData idfa], [AppData bundleId]];
+            NSString *js = [NSString stringWithFormat:@"gnjs_setParameters(%@, '%@', '%@', '%@');", ![AppData canTracking] ? @(true) : @(false), [AppData idfa], [AppData bundleId], [AppData carrierCode]];
             [webView stringByEvaluatingJavaScriptFromString:js];
         }
         return NO;
