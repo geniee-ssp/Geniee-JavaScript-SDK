@@ -12,11 +12,14 @@
 
 - (WKWebViewConfiguration *)createConfiguration {
 
-    // ネイティブでIDFAやLAT、バンドルIDを取得し、HTML側に渡す処理
+    // ネイティブでIDFAやLAT、バンドルID、キャリアを取得し、HTML側に渡す処理
     NSString *setParams =
         [NSString stringWithFormat:@"var geparams = window.geparams || {}; "
                                    @"geparams.lat = %@; geparams.idfa = '%@'; geparams.bundle = '%@';",
                                    ![AppData canTracking] ? @(true) : @(false), [AppData idfa], [AppData bundleId]];
+    if ([AppData carrierCode].length) {
+        setParams = [setParams stringByAppendingFormat:@"geparams.carrier = '%@';", [AppData carrierCode]];
+    }
     
     WKUserScript *userScriptSetParams = [[WKUserScript alloc] initWithSource:setParams
                                                                injectionTime:WKUserScriptInjectionTimeAtDocumentStart

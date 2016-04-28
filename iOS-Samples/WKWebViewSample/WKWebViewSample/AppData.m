@@ -1,5 +1,6 @@
 #import "AppData.h"
 @import AdSupport;
+@import CoreTelephony;
 
 // アプリの各種データを取得するクラスです。
 @implementation AppData
@@ -23,6 +24,16 @@
         return [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
     }
     return @"";
+}
+
+// キャリアを取得
++ (NSString *)carrierCode {
+    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
+    CTCarrier *carrier = [networkInfo subscriberCellularProvider];
+    if (!carrier.mobileCountryCode) {
+        return @"";
+    }
+    return [carrier.mobileCountryCode stringByAppendingString:carrier.mobileNetworkCode];
 }
 
 @end
