@@ -10,4 +10,4 @@ Android、iOSにおけるサンプルを配置しています。
 We have placed samples on Android and iOS.
 We use ad tags issued from the management tool.
 
-Please see [here] (https://github.com/geniee-ssp/Geniee-JavaScript-SDK/wiki) for an explanation of the introduction method.
+Please see [here](https://github.com/geniee-ssp/Geniee-JavaScript-SDK/wiki/JavaScript-Ad-SDK-for-WebView-in-App%28English%29) for an explanation of the introduction method.
