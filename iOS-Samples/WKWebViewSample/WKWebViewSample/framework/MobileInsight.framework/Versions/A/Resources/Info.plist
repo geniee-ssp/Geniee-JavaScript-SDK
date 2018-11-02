@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Resources should be file-mapped</key>
+	<false/>
+	<key>Principal class</key>
+	<string></string>
+	<key>Copyright (human-readable)</key>
+	<string>Copyright (C)2017 Yahoo! JAPAN corporation. All rights reserved.</string>
+	<key>Bundle version</key>
+	<string>A</string>
+	<key>Bundle creator OS Type code</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>3.6.2</string>
+	<key>Bundle OS Type code</key>
+	<string>FMWK</string>
+	<key>Bundle name</key>
+	<string>MobileInsight</string>
+	<key>InfoDictionary version</key>
+	<string>6.0</string>
+	<key>Bundle identifier</key>
+	<string>jp.co.yahoo.ios.MobileInsight</string>
+	<key>Icon file</key>
+	<string></string>
+	<key>Get Info string</key>
+	<string>MobileInsight</string>
+	<key>Localization native development region</key>
+	<string>Japan</string>
+</dict>
+</plist>

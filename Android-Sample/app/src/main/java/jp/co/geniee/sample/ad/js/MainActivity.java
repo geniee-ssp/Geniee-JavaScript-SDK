@@ -3,10 +3,12 @@ package jp.co.geniee.sample.ad.js;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -24,9 +26,19 @@ public class MainActivity extends AppCompatActivity {
 
         // JavaScriptからネイティブの処理を呼び出せるように設定します。
         // 端末の広告IDやLAT、アプリのパッケージネームをJavaScript内の処理で利用します。
-        webView.getSettings().setJavaScriptEnabled(true);
+        WebSettings settings = webView.getSettings();
+        settings.setLoadWithOverviewMode(true);
+        settings.setBuiltInZoomControls(false);
+        settings.setSupportZoom(false);
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setAppCacheEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            settings.setMediaPlaybackRequiresUserGesture(false);
+        }
         Context context = getApplicationContext();
         webView.addJavascriptInterface(new AppData(context), "appData");
+
 
         // 広告をクリックした際に外部ブラウザでページ開くように設定します。
         // 広告はiFrame内に表示されるケースがあります。
