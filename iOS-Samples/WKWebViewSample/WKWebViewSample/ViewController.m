@@ -2,21 +2,25 @@
 #import "ViewController.h"
 @import WebKit;
 
-@interface ViewController () <WKNavigationDelegate, WKScriptMessageHandler>
+@interface ViewController () <WKNavigationDelegate,UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *urlField;
 
 @end
 
 @implementation ViewController {
-    WKWebView *webView;
+    WKWebView *wkwebView;
 }
 
 - (WKWebViewConfiguration *)createConfiguration {
 
-    // ネイティブでIDFAやLAT、バンドルIDを取得し、HTML側に渡す処理
+    // ネイティブでIDFAやLAT、バンドルID、キャリアを取得し、HTML側に渡す処理
     NSString *setParams =
         [NSString stringWithFormat:@"var geparams = window.geparams || {}; "
                                    @"geparams.lat = %@; geparams.idfa = '%@'; geparams.bundle = '%@';",
                                    ![AppData canTracking] ? @(true) : @(false), [AppData idfa], [AppData bundleId]];
+    if ([AppData carrierCode].length) {
+        setParams = [setParams stringByAppendingFormat:@"geparams.carrier = '%@';", [AppData carrierCode]];
+    }
     
     WKUserScript *userScriptSetParams = [[WKUserScript alloc] initWithSource:setParams
                                                                injectionTime:WKUserScriptInjectionTimeAtDocumentStart
@@ -27,6 +31,8 @@
 
     WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
     configuration.userContentController = userContentController;
+    configuration.mediaTypesRequiringUserActionForPlayback = NO;
+    configuration.allowsInlineMediaPlayback = YES;
     return configuration;
 }
 
@@ -34,29 +40,42 @@
     [super viewDidLoad];
 
     WKWebViewConfiguration *configuration = [self createConfiguration];
-    webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:configuration];
-
-    [self.view addSubview:webView];
-
+    wkwebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
+    
+    [self.view addSubview:wkwebView];
+    
     // このサンプルアプリでのレイアウト調整を行っています。
-    webView.scrollView.bounces = NO;
-    webView.scrollView.scrollEnabled = NO;
-    webView.navigationDelegate = self;
-    id topGuide = self.topLayoutGuide;
-    [webView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[webView]|"
+    wkwebView.scrollView.bounces = NO;
+    wkwebView.scrollView.scrollEnabled = YES;
+    wkwebView.navigationDelegate = self;
+    [wkwebView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[wkwebView]|"
                                                                       options:0
                                                                       metrics:nil
-                                                                        views:NSDictionaryOfVariableBindings(webView)]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-[webView]|"
+                                                                        views:NSDictionaryOfVariableBindings(wkwebView)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_urlField]-[wkwebView]|"
                                                                       options:0
                                                                       metrics:nil
-                                                                        views:NSDictionaryOfVariableBindings(webView, topGuide)]];
+                                                                        views:NSDictionaryOfVariableBindings(wkwebView, _urlField)]];
+
+    
 
     // ページの読み込み
     // このサンプルアプリではローカルのtest.htmlを読み込んでいます。
     NSURL *url = [[NSBundle mainBundle] URLForResource:@"test" withExtension:@"html"];
-    [webView loadRequest:[NSURLRequest requestWithURL:url]];
+    //NSURL *url = [NSURL URLWithString:@"https://geniee.co.jp/"];
+
+   [wkwebView loadRequest:[NSURLRequest requestWithURL:url]];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSLog(@"%@",self.urlField.text);
+    
+    NSURL *url = [NSURL URLWithString:self.urlField.text];
+    //NSURL *url = [NSURL URLWithString:@"https://geniee.co.jp/"];
+    [wkwebView loadRequest:[NSURLRequest requestWithURL:url]];
+    return YES;
 }
 
 - (void)webView:(WKWebView *)webView
@@ -70,7 +89,8 @@
     // 下の例の、@"外部ブラウザ起動用キーワード"を登録済みのものに書き換える。
     if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
         if ([urlString rangeOfString:@"外部ブラウザ起動用キーワード"].location != NSNotFound) {
-            [[UIApplication sharedApplication] openURL:url];
+            [[UIApplication sharedApplication] openURL:url options:@{}
+                                     completionHandler:nil];
             decisionHandler(WKNavigationActionPolicyCancel);
             return;
         }
