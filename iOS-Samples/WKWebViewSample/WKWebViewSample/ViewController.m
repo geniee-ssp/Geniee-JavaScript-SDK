@@ -39,6 +39,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [AppData checkIdfa];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self requestAd];
+        });
+    });
+}
+
+- (void)requestAd {
     WKWebViewConfiguration *configuration = [self createConfiguration];
     wkwebView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
     
@@ -65,7 +74,7 @@
     NSURL *url = [[NSBundle mainBundle] URLForResource:@"test" withExtension:@"html"];
     //NSURL *url = [NSURL URLWithString:@"https://geniee.co.jp/"];
 
-   [wkwebView loadRequest:[NSURLRequest requestWithURL:url]];
+    [wkwebView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
