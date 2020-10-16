@@ -7,4 +7,6 @@
 + (NSString *)idfa;
 + (NSString *)carrierCode;
 
++(void)checkIdfa;
+
 @end
