@@ -1,4 +1,6 @@
 #import "AppDelegate.h"
+// For analysis.
+//#import <MobileInsight/MobileInsight.h>
 
 @interface AppDelegate ()
 
@@ -9,9 +11,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [MobileInsight startTrackWithAppID:@"187" appSecret:@"2baa7b99aea4de162333e2331081edc3"];
-    
-    [MobileInsight setDebug:YES];
+    // For analysis.
+    //[MobileInsight startTrackWithAppID:@"187" appSecret:@"2baa7b99aea4de162333e2331081edc3"];
+    //[MobileInsight setDebug:YES];
     
     return YES;
 }
