@@ -84,11 +84,10 @@
     NSURL *url = navigationAction.request.URL;
     NSString *urlString = [url absoluteString];
 
-    // URLに外部ブラウザで起動するためのキーワードが含まれていたら外部ブラウザで開く処理
-    // (広告に管理画面で設定したキーワードが設定され、広告をタップすると外部ブラウザで開く処理を実現する)
-    // 下の例の、@"外部ブラウザ起動用キーワード"を登録済みのものに書き換える。
+    // URLが空でない場合、外部ブラウザで起動する
+    // 広告をタップすると外部ブラウザで開く
     if (navigationAction.navigationType == WKNavigationTypeLinkActivated) {
-        if ([urlString rangeOfString:@"外部ブラウザ起動用キーワード"].location != NSNotFound) {
+        if (urlString != nil && [urlString length] > 0) {
             [[UIApplication sharedApplication] openURL:url options:@{}
                                      completionHandler:nil];
             decisionHandler(WKNavigationActionPolicyCancel);
