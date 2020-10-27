@@ -1,5 +1,6 @@
 package jp.co.geniee.sample.ad.js;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -44,23 +46,19 @@ public class MainActivity extends AppCompatActivity {
         // 広告はiFrame内に表示されるケースがあります。
         // この対応を行わないとiFrame内に広告クリック先のページが表示されます。
         webView.setWebViewClient(new WebViewClient() {
-
             @Override
-            public void onLoadResource(WebView view, String url) {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                view.getContext().startActivity(intent);
+                return true;
+            };
 
-                // URLにキーワードが含まれていたら 広告がクリックされたと判断
-                if (url.contains("管理ツールで設定したキーワード")) {
-                    // 外部ブラウザで開くのでWebView内での読み込みを中断します。
-                    webView.stopLoading();
-
-                    // 外部ブラウザで開きます。
-                    Uri uri = Uri.parse(url);
-                    Intent i = new Intent(Intent.ACTION_VIEW, uri);
-                    startActivity(i);
-                    return;
-                }
-
-                super.onLoadResource(view, url);
+            @TargetApi(Build.VERSION_CODES.N)
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, request.getUrl());
+                view.getContext().startActivity(intent);
+                return true;
             }
         });
 
